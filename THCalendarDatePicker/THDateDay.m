@@ -40,7 +40,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     if ([self isRounded]) {
-        [self addMaskToBounds:self.frame];
+        [self addMaskToBounds:self.hasItemsIndicator.hidden ? self.dateButton.frame : self.frame];
     }
 }
 

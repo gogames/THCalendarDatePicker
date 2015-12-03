@@ -141,6 +141,8 @@
 
 - (void)setDisableYearSwitch:(BOOL)disableYearSwitch {
     _disableYearSwitch = disableYearSwitch;
+    self.prevYearBtn.hidden = disableYearSwitch;
+    self.nextYearBtn.hidden = disableYearSwitch;
 }
 
 #pragma mark - View Management
@@ -451,8 +453,15 @@
 
 - (void)dateDayTapped:(THDateDay *)dateDay {
     if (!_internalDate || [_internalDate timeIntervalSinceDate:dateDay.date] || _allowSelectionOfSelectedDate) { // new date selected
-        [self.currentDay setSelected:NO];
-        [self.currentDay setLightText:![self dateInCurrentMonth:self.currentDay.date]];
+        if ([self.delegate respondsToSelector:@selector(datePicker:shouldSelectDate:)]) {
+            if (![self.delegate datePicker:self shouldSelectDate:dateDay.date]) {
+		return;
+	    }
+        }
+        if (self.currentDay) {
+            [self.currentDay setSelected:NO];
+            [self.currentDay setLightText:![self dateInCurrentMonth:self.currentDay.date]];
+        }
         [dateDay setSelected:YES];
         BOOL dateInDifferentMonth = ![self dateInCurrentMonth:dateDay.date];
         NSDate *firstOfCurrentMonth = self.firstOfCurrentMonth;

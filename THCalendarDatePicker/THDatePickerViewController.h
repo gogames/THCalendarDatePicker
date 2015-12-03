@@ -22,6 +22,7 @@
 
 @optional
 
+-(BOOL)datePicker:(THDatePickerViewController *)datePicker shouldSelectDate:(NSDate *)date;
 -(void)datePicker:(THDatePickerViewController *)datePicker selectedDate:(NSDate *)selectedDate;
 -(void)datePickerDidHide:(THDatePickerViewController *)datePicker;
 
